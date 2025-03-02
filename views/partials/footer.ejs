@@ -1,0 +1,118 @@
+<footer>
+    all rights are reserved to hakki
+</footer>
+<script>
+    const url = `http://localhost:2222/`
+    const loginForm = document.querySelector("#loginForm")
+    const registerForm = document.querySelector("#registerForm")
+    const username = document.querySelector("#username")
+    const password = document.querySelector("#password")
+    const usernameRegister = document.querySelector("#registerForm #username")
+    const usernameRegisterError = document.querySelector("#registerForm #username + span")
+    const passwordRegisterError = document.querySelector("#registerForm #password + span")
+    const passwordRegister = document.querySelector("#registerForm #password")
+
+    const logout = document.querySelector("#logout")
+    const registerbtn = document.querySelector("#registerbtn")
+    const loginbtn = document.querySelector("#loginbtn")
+    const delbtns = document.querySelectorAll(".delbtn")
+
+
+    if (loginForm) {
+        loginForm.addEventListener("submit", (e) => {
+            e.preventDefault()
+
+            fetch(`${url}login`, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username: username.value, password: password.value })
+            })
+
+                .then(res => {
+                    setTimeout(() => location.assign(url + "users"), 2000)
+
+                })
+        })
+    }
+    console.log(registerForm)
+
+
+    if (registerForm) {
+        registerForm.addEventListener("submit", (e) => {
+            e.preventDefault()
+            if (!/\w{6,}/.test(usernameRegister.value)) {
+                usernameRegisterError.textContent = "the username must have at least 6 chars"
+                usernameRegisterError.style.display = "block"
+                setTimeout(() => usernameRegisterError.style.display = "none", 2000)
+            }
+            if (!/\w{6,}/.test(passwordRegister.value)) {
+                passwordRegisterError.textContent = "the password must have at least 6 chars"
+                passwordRegisterError.style.display = "block"
+                setTimeout(() => passwordRegisterError.style.display = "none", 2000)
+            }
+            else {
+                fetch(url + "register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ username: usernameRegister.value, password: passwordRegister.value })
+                })
+                    .then(res => location.assign(url))
+            }
+
+        })
+    }
+
+    if (logout) {
+        logout.addEventListener("click", (e) => {
+            e.preventDefault()
+            window.fetch(`${url}/users/logout`, {
+                method: "post",
+                headers: {
+                    "Content-Type": "text/html"
+                }
+            })
+                .then(res => {
+                    setTimeout(() => {
+                        location.assign("http://localhost:2222", 1000)
+                    })
+                })
+
+        })
+    }
+
+    if (registerbtn) {
+        registerbtn.addEventListener("click", (e) => {
+            e.preventDefault()
+            location.assign(url + "register")
+        })
+    }
+
+    if (loginbtn) {
+        loginbtn.addEventListener("click", (e) => {
+            e.preventDefault()
+            location.assign(url + "login")
+        })
+    }
+
+    if (delbtns) {
+        delbtns.forEach(delBtn => delBtn.addEventListener("click", (e) => {
+            e.preventDefault()
+            const { id } = delBtn.dataset
+            if (confirm("are you sure to delete thos user?")) {
+                fetch(url + "users/" + id, {
+                    method: "delete"
+                })
+                    .then(res => location.assign(url + "users"))
+            }
+        }))
+    }
+
+</script>
+</body>
+
+</html>

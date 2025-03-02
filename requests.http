@@ -1,0 +1,24 @@
+
+GET http://localhost:2222/users
+
+####
+POST http://localhost:2222/users/register
+Content-Type: application/json
+
+{
+    "username":"didda666",
+    "password":"1234"
+}
+
+
+####
+POST http://localhost:2222/users/login
+Content-Type: application/json
+
+{
+    "username":"hakki122",
+    "password":"1234"
+}
+
+####
+DELETE http://localhost:2222/users/6a64e050-c1de-469b-b2d6-4435cc51d025

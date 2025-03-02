@@ -1,0 +1,9 @@
+<%- include("./partials/header.ejs",{user}) %>
+    <% if(!user) {%>
+        <%- include("./partials/Register.ejs") %>
+            <%- include("./partials/login.ejs") %>
+                <% }%>
+                    <%- include("./partials/usersTable.ejs",{users}) %>
+
+
+                        <%- include("./partials/footer.ejs") %>
